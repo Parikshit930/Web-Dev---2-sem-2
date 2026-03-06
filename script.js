@@ -1,3 +1,4 @@
+
 /* ═══════════════════════════════════════════════
    STRATOS — Weather Tracker  |  script.js
    Uses: Fetch API + async/await + LocalStorage
