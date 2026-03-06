@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stratos — Weather Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Distinctive font pairing: Syne (display) + DM Mono (data readouts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Ambient background orbs -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <!-- ─── HEADER ─── -->
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-icon">◈</span>
+      <span class="logo-text">STRATOS</span>
+    </div>
+    <p class="logo-sub">Atmospheric Intelligence</p>
+  </header>
+
+  <!-- ─── MAIN GRID ─── -->
+  <main class="dashboard-grid">
+
+    <!-- ════ CONTAINER 1 — SEARCH ════ -->
+    <section class="card card-search" id="card-search">
+      <div class="card-label">01 / SEARCH</div>
+      <h2 class="card-title">Track a City</h2>
+
+      <!-- Search input row -->
+      <div class="search-row">
+        <div class="input-wrapper">
+          <span class="input-icon">⌖</span>
+          <input
+            type="text"
+            id="city-input"
+            class="city-input"
+            placeholder="Enter city name…"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+        <button id="search-btn" class="search-btn" aria-label="Search weather">
+          <span class="btn-text">FETCH</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+
+      <!-- API key notice -->
+      <div class="api-notice">
+        <span class="notice-dot"></span>
+        <span>Welcome to Atmospheric Intelligence</span>
+      </div>
+
+      <!-- Recent searches -->
+      <div class="recents-section" id="recents-section">
+        <div class="recents-header">
+          <span class="recents-label">RECENT SEARCHES</span>
+          <button class="clear-btn" id="clear-btn" title="Clear history">✕ CLEAR</button>
+        </div>
+        <div class="recents-list" id="recents-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ════ CONTAINER 2 — WEATHER RESULT ════ -->
+    <section class="card card-result" id="card-result">
+      <div class="card-label">02 / CONDITIONS</div>
+
+      <!-- Default / empty state -->
+      <div class="result-empty" id="result-empty">
+        <div class="empty-icon">◌</div>
+        <p class="empty-text">No data loaded yet.<br/>Search a city to begin.</p>
+      </div>
+
+      <!-- Loading state -->
+      <div class="result-loading hidden" id="result-loading">
+        <div class="loader-ring">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+        </div>
+        <p class="loading-text">Fetching atmosphere…</p>
+      </div>
+
+      <!-- Error state -->
+      <div class="result-error hidden" id="result-error">
+        <div class="error-icon">⚠</div>
+        <p class="error-title" id="error-title">City Not Found</p>
+        <p class="error-sub" id="error-sub">Check spelling and try again.</p>
+      </div>
+
+      <!-- Success state -->
+      <div class="result-data hidden" id="result-data">
+        <!-- City + country -->
+        <div class="result-location">
+          <span class="result-city" id="result-city">—</span>
+          <span class="result-country" id="result-country">—</span>
+        </div>
+
+        <!-- Big temperature display -->
+        <div class="result-temp-row">
+          <span class="result-temp" id="result-temp">—</span>
+          <span class="result-unit">°C</span>
+          <!-- Weather icon from OpenWeatherMap -->
+          <img class="weather-icon" id="weather-icon" src="" alt="" />
+        </div>
+
+        <!-- Condition label -->
+        <div class="result-condition" id="result-condition">—</div>
+
+        <!-- Stats grid -->
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-label">FEELS LIKE</span>
+            <span class="stat-value" id="stat-feels">—</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">HUMIDITY</span>
+            <span class="stat-value" id="stat-humidity">—</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">WIND</span>
+            <span class="stat-value" id="stat-wind">—</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">VISIBILITY</span>
+            <span class="stat-value" id="stat-vis">—</span>
+          </div>
+        </div>
+
+        <!-- Fetch timestamp -->
+        <div class="result-timestamp" id="result-timestamp">—</div>
+      </div>
+    </section>
+
+    <!-- ════ CONTAINER 3 — CONSOLE LOGS ════ -->
+    <section class="card card-console" id="card-console">
+      <div class="card-label">03 / EXECUTION LOG</div>
+      <div class="console-header">
+        <div class="console-dots">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+        <span class="console-title">async / await trace</span>
+        <button class="clear-btn" id="clear-log-btn" title="Clear log">✕</button>
+      </div>
+      <div class="console-body" id="console-body">
+        <div class="log-entry log-system">
+          <span class="log-time">00:00:00</span>
+          <span class="log-tag tag-sys">[SYS]</span>
+          <span class="log-msg">Stratos initialized. Awaiting input.</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    Powered by OpenWeatherMap API &nbsp;·&nbsp; Built with Vanilla JS
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
